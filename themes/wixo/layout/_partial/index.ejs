@@ -1,0 +1,86 @@
+<div class="row page">
+	<div class="col-md-6">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<span class="panel-title" data-toggle="collapse" data-parent="#notebook">
+						最新发表
+					</span>
+				</div>
+				<div class="panel-collapse collapse in">
+					<div class="panel-body">
+						<ul class="post">
+							<% site.posts.sort('date', -1).each(function(it){ %>
+							<% if (!it.author) { it.author = '路人甲'}%>
+							<li class="post-list-item" style="list-style-type:none; margin-left:-30px;"><%= it.date.format(config.date_format) %>  <a style="margin-left:10px;" href="<%= config.root %><%= it.path %>"> <%= it.title %></a><span style="float:right; font-size:12px; font-style:italic"><%= it.author %></span></li>
+							<% }) %>
+						</ul>
+					</div>
+				</div>
+
+			</div>			
+		</div>
+	</div>
+
+
+	<div class="col-md-6">
+		<div class="panel-group" id="notebook">
+			<% site.categories.sort('name').each(function(cat){ %>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#<%= cat.name %>">
+						<i class="fa fa-folder"></i> <%= cat.name %>		  
+				</div>
+				<!--<% if (theme.fold) { %>
+				    <div id="<%= cat.name %>" class="panel-collapse collapse">
+				<% } else { %>
+					<div id="<%= cat.name %>" class="panel-collapse collapse in">
+				<% } %>
+				-->
+					<div id="<%= cat.name %>" class="panel-collapse collapse">
+						<div class="panel-body">
+							<ul class="post">
+								<% site.posts.sort('date', -1).each(function(it){ %>
+								    <% if (it.categories.length == 1 && it.categories.data[0]._id == cat._id){ %>
+								        <li class="post-list-item"><a href="<%= config.root %><%= it.path %>"><%= it.title %></a></li>
+								    <% } %>
+								<% }); %>
+							</ul>
+						</div>
+					</div>
+			</div>
+			<% }); %>
+			<% var has_scratch = -1 %>
+			<% site.posts.sort('date', -1).each(function(it){ %>
+			<% if (has_scratch == -1 && it.categories.length == 0) { %>
+			<% has_scratch = 1 %>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#<%= theme.scratch_name %>">
+						<i class="fa fa-folder"></i> <%= theme.scratch_name %>		   
+				</div>
+				<!--<% if (theme.fold) { %>
+					<div id="<%= theme.scratch_name %>" class="panel-collapse collapse">
+				<% } else { %>
+					<div id="<%= theme.scratch_name %>" class="panel-collapse collapse in">
+				<% } %>-->
+					<div id="<%= theme.scratch_name %>" class="panel-collapse collapse">
+					    <div class="panel-body">
+						    <ul class="post">
+			<% return %>
+            <% } %>
+			<% }); %>
+			<% if (has_scratch == 1) { %>
+			    <% site.posts.sort('date', -1).each(function(it){ %>
+			                    <% if (it.categories.length == 0){ %>
+			                    <li class="post-list-item"><a href="<%= config.root %><%= it.path %>"><%= it.title %></a></li>
+			                    <% } %>
+			    <% }); %>
+				            </ul>
+				        </div>
+				    </div>
+			</div>
+			<% } %>
+		</div><!-- accordion -->
+	</div>
+</div>

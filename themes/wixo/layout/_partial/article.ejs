@@ -1,0 +1,67 @@
+<div class="page-header">		
+	
+  <div class="page-banner">
+	<h1 style="display:inline">
+		<a class="brand" href="<%= config.root %>"><%= config.title %></a>
+	</h1>
+	<span class="page-search"><i class="fa fa-search"></i><input type="search" id="local-search-input" placeholder="Search..." autocomplete="off" spellcheck="false"></span>
+  </div>
+  <div class="page-title">                                                                     
+	<span class="title"><%= page.title %></span>
+	<div class="page-author">
+	<% if (page.author){ %>
+		<span>posted by <%= page.author %></span>
+	<% } else { %>
+		<span>posted by 路人甲</span>
+	<% } %>
+		<br><span class="date" id="title-date" style="right: 256.5px;"><i class="fa fa-clock-o"></i> <%= page.date.format(config.date_format) %></span>
+	</div>  
+  </div>
+</div>		
+	<div id="local-search-result"></div>
+
+<div class="row page">
+  <!-- cols -->	
+  <% if (page.toc) { %>
+  <div class="col-xs-12 col-sm-3 col-md-3 toc"> 
+	<%- partial('post/toc', {page: item}) %>
+  </div><!-- col-md-3 -->
+  <% } %>
+  
+
+  <% if (page.toc) { %>
+  <div class="col-xs-12 col-sm-9 col-md-9 note">
+	<% } else { %>
+	<div class="col-md-12">
+	  <% } %>
+
+	  <!-- content -->
+	  <%- item.content %>	  
+
+	  <div>
+  		<center>
+		  <%- partial('post/pagination', {page: item}) %>
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
+  
+  <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="<%= page.source %>" data-title="<%= page.title %>" data-url="<%= page.permalink%>"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"cstd"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
